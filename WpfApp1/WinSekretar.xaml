@@ -1,0 +1,262 @@
+﻿<Window x:Class="WpfApp1.WinSekretar"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Секретарь" Height="570" Width="1245" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Студенты">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="290"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgStudents" AutoGenerateColumns="False" SelectionChanged="dgStudents_SelectionChanged" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Код студента" Binding="{Binding codstudent}" Width="80"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding fio}" Width="90"/>
+                            <DataGridTextColumn Header="Пол" Binding="{Binding gender}" Width="80"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding bd, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Родители" Binding="{Binding family}" Width="80"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding street}" Width="90"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding phone}" Width="100"/>
+                            <DataGridTextColumn Header="Паспортные данные" Binding="{Binding passport}" Width="130"/>
+                            <DataGridTextColumn Header="Номер зачётки" Binding="{Binding numberz}" Width="95"/>
+                            <DataGridTextColumn Header="Дата поступления" Binding="{Binding datep, StringFormat='{}{0:dd/MM/yyyy}'}"   Width="110"/>
+                            <DataGridTextColumn Header="Группа" Binding="{Binding groupp}" Width="50"/>
+                            <DataGridTextColumn Header="Курс" Binding="{Binding course}" Width="40"/>
+                            <DataGridCheckBoxColumn Header="Очная форма обучения" Binding="{Binding status}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <GroupBox Width="1025" Header="Добавление студента" Margin="0,0,0,80">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Введите ФИО" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox x:Name="StxtFIO" Grid.Row="1" Grid.Column="0" Margin ="5" PreviewTextInput="StxtFIO_PreviewTextInput"/>
+                                <Label Content="Введите пол" Grid.Row="2" Grid.Column="0"/>
+                                <ComboBox x:Name="ScmbGender" Grid.Row="3" Grid.Column="0" Margin ="5"/>
+                                <Label Content="Введите дату рождения" Grid.Row="4" Grid.Column="0"/>
+                                <DatePicker x:Name="StxtBD" Grid.Row="5" Grid.Column="0" Margin ="5" PreviewTextInput="StxtBD_PreviewTextInput"/>
+
+                                <Label Content="Выберите родителей" Grid.Row="0" Grid.Column="1"/>
+                                <ComboBox x:Name="ScmbFamily" Grid.Row="1" Grid.Column="1" Margin="5"/>
+                                <Label Content="Введите адрес" Grid.Row="2" Grid.Column="1"/>
+                                <TextBox x:Name="StxtAdres" Grid.Row="3" Grid.Column="1" Margin="5" PreviewTextInput="StxtAdres_PreviewTextInput"/>
+                                <Label Content="Введите номер телефона" Grid.Row="4" Grid.Column="1"/>
+                                <TextBox x:Name="StxtPhone" MaxLength="12" Grid.Row="5" Grid.Column="1" Margin="5" PreviewTextInput="StxtPhone_PreviewTextInput"/>
+
+                                <Label Content="Введите паспортные данные" Grid.Row="0" Grid.Column="2"/>
+                                <TextBox  x:Name="StxtPassport" MaxLength="11" Grid.Row="1" Grid.Column="2" Margin ="5" PreviewTextInput="StxtPassport_PreviewTextInput"/>
+                                <Label Content="Введите номер зачётки" Grid.Row="2" Grid.Column="2"/>
+                                <TextBox x:Name="StxtZK" Grid.Row="3" MaxLength="5" Grid.Column="2" Margin="5" PreviewTextInput="StxtZK_PreviewTextInput"/>
+                                <Label Content="Введите дату поступления" Grid.Row="4" Grid.Column="2"/>
+                                <DatePicker x:Name="StxtDate" Grid.Row="5" Grid.Column="2" Margin="5" PreviewTextInput="StxtDate_PreviewTextInput"/>
+
+                                <Label Content="Выберите группу студента" Grid.Row="0" Grid.Column="3"/>
+                                <ComboBox x:Name="ScmbGroup" Grid.Row="1" Grid.Column="3" Margin="5"/>
+                                <Label Content="Выберите курс студента" Grid.Row="2" Grid.Column="3"/>
+                                <ComboBox x:Name="ScmbCourse" Grid.Row="3" Grid.Column="3" Margin="5"/>
+                                <Label Content="Очная форма обучения?" HorizontalAlignment="Left" Grid.Row="4" Grid.Column="3"/>
+                                <ComboBox x:Name="ScmbForm" Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" Margin="5"/>
+
+                                <Button x:Name="SbtnInsert" Content="Добавить студента" Margin="5" Grid.Row="0" Grid.Column="4" Click="SbtnInsert_Click"/>
+                                <Button x:Name="SbtnUpdate" Content="Изменить студента" Margin="5" Grid.Row="1" Grid.Column="4" Click="SbtnUpdate_Click"/>
+                                <GroupBox Header="Поиск" Margin="5" HorizontalAlignment="Left" Width="190" Grid.Row="2" Grid.Column="4" Grid.RowSpan="2">
+                                    <TextBox x:Name="StxtPoisk" Margin="5" TextChanged="StxtPoisk_TextChanged" Width="165" HorizontalAlignment="Left" PreviewTextInput="StxtPoisk_PreviewTextInput"/>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Оценки">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="810"/>
+                        <ColumnDefinition Width="810"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="220"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgBalls" AutoGenerateColumns="False" Grid.ColumnSpan="2" SelectionChanged="dgBalls_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Код студента" Binding="{Binding Ocodstudent}" Width="80"/>
+                            <DataGridTextColumn Header="Дата экзамена 1" Binding="{Binding Odateekz1, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Предмет 1" Binding="{Binding Ocodpredmeta1}" Width="70"/>
+                            <DataGridTextColumn Header="Оценка 1" Binding="{Binding Oball1}" Width="70"/>
+                            <DataGridTextColumn Header="Дата экзамена 2" Binding="{Binding Odateekz2, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Предмет 2" Binding="{Binding Ocodpredmeta2}" Width="70"/>
+                            <DataGridTextColumn Header="Оценка 2" Binding="{Binding Oball2}" Width="70"/>
+                            <DataGridTextColumn Header="Дата экзамена 3" Binding="{Binding Odateekz3, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Предмет 3" Binding="{Binding Ocodpredmeta3}" Width="70"/>
+                            <DataGridTextColumn Header="Оценка 3" Binding="{Binding Oball3}" Width="70"/>
+                            <DataGridTextColumn Header="Средний балл" Binding="{Binding Osrball}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <GroupBox Width="825" Header="Добавление оценок">
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Введите дату первого экзамена" Grid.Row="0" Grid.Column="0"/>
+                                <DatePicker x:Name="OtxtDateOne" Grid.Row="1" Grid.Column="0" Margin ="5" PreviewTextInput="OtxtDateOne_PreviewTextInput"/>
+                                <Label Content="Выберите первый предмет" Grid.Row="2" Grid.Column="0"/>
+                                <ComboBox x:Name="OcmbPredmetOne" Grid.Row="3" Grid.Column="0" Margin ="5"/>
+                                <Label Content="Выберите первую оценку" Grid.Row="4" Grid.Column="0"/>
+                                <ComboBox x:Name="OtxtBallOne" Grid.Row="5" Grid.Column="0" Margin ="5"/>
+
+                                <Label Content="Введите дату второго экзамена" Grid.Row="0" Grid.Column="1"/>
+                                <DatePicker x:Name="OtxtDateTwo" Grid.Row="1" Grid.Column="1" Margin="5" PreviewTextInput="OtxtDateTwo_PreviewTextInput"/>
+                                <Label Content="Выберите второй предмет" Grid.Row="2" Grid.Column="1"/>
+                                <ComboBox x:Name="OcmbPredmetTwo" Grid.Row="3" Grid.Column="1" Margin="5"/>
+                                <Label Content="Выберите вторую оценку" Grid.Row="4" Grid.Column="1"/>
+                                <ComboBox x:Name="OtxtBallTwo" Grid.Row="5" Grid.Column="1" Margin ="5"/>
+
+                                <Label Content="Введите дату третьего экзамена" Grid.Row="0" Grid.Column="2"/>
+                                <DatePicker x:Name="OtxtDateThree" Grid.Row="1" Grid.Column="2" Margin="5" PreviewTextInput="OtxtDateThree_PreviewTextInput"/>
+                                <Label Content="Выберите третий предмет" Grid.Row="2" Grid.Column="2"/>
+                                <ComboBox x:Name="OcmbPredmetThree" Grid.Row="3" Grid.Column="2" Margin="5"/>
+                                <Label Content="Выберите третью оценку" Grid.Row="4" Grid.Column="2"/>
+                                <ComboBox x:Name="OtxtBallThree" Grid.Row="5" Grid.Column="2" Margin="5"/>
+                                <TextBox x:Name="OtxtSrBall" Visibility="Hidden"/>
+
+                                <Label Content="Выберите код студента" Grid.Row="0" Grid.Column="3"/>
+                                <ComboBox x:Name="OcmbStudent" Grid.Row="1" Grid.Column="3" Margin="5"/>
+                                <Button x:Name="ObtnInsert" Content="Добавить оценку" Margin="5" Grid.Row="2" Grid.Column="3" Click="ObtnInsert_Click"/>
+                                <Button x:Name="ObtnUpdate" Content="Изменить оценку" Margin="5" Grid.Row="3" Grid.Column="3" Click="ObtnUpdate_Click"/>
+                                <GroupBox Header="Поиск" Margin="5" HorizontalAlignment="Left" Width="190" Grid.Row="4" Grid.Column="3" Grid.RowSpan="2">
+                                    <TextBox x:Name="OtxtPoisk" Margin="5" Width="165" HorizontalAlignment="Left" PreviewTextInput="OtxtPoisk_PreviewTextInput" TextChanged="OtxtPoisk_TextChanged"/>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Предметы и специальности">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="520"/>
+                        <ColumnDefinition Width="600"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="300"/>
+                        <RowDefinition Height="280"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid x:Name="dgPredmets" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False" Margin="0,0,0,0" SelectionChanged="dgPredmets_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Код предмета" Binding="{Binding Pcodpredmeta}" Width="90"/>
+                            <DataGridTextColumn Header="Наименование предмета" Binding="{Binding Pnaimpredmeta}" Width="250"/>
+                            <DataGridTextColumn Header="Описание предмета" Binding="{Binding Popisaniepredmeta}" Width="170"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <DataGrid x:Name="dgSpeci" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False" Margin="10,0,-10,0" SelectionChanged="dgSpeci_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Код специальности" Binding="{Binding ScodSpec}" Width="120"/>
+                            <DataGridTextColumn Header="Наименование специальности" Binding="{Binding SnaimSpec}" Width="180"/>
+                            <DataGridTextColumn Header="Описание специальности" Binding="{Binding SopisSpec}" Width="290"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <GroupBox Width="520" Height="215" Header="Добавление предмета">
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Введите наименование предмета" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox x:Name="PtxtNaimPredmeta" Grid.Row="1" Grid.Column="0" Margin ="5" PreviewTextInput="PtxtNaimPredmeta_PreviewTextInput"/>
+
+                                <Label Content="Введите описание предмета" Grid.Row="0" Grid.Column="1"/>
+                                <TextBox x:Name="PtxtOpisPredmeta" Grid.Row="1" Grid.Column="1" Margin ="5" PreviewTextInput="PtxtOpisPredmeta_PreviewTextInput"/>
+
+                                <Button x:Name="PbtnsInsert" Content="Добавить предмет" Margin="5" Grid.Row="2" Grid.Column="0" Click="PbtnsInsert_Click"/>
+                                <Button x:Name="PbtnsUpdate" Content="Изменить предмет" Margin="5" Grid.Row="3" Grid.Column="0" Click="PbtnsUpdate_Click" />
+                                <GroupBox Header="Поиск" Margin="5" HorizontalAlignment="Left" Width="190" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+                                    <TextBox x:Name="PtxtPoisk" Margin="5" Width="165" HorizontalAlignment="Left" PreviewTextInput="PtxtPoisk_PreviewTextInput" TextChanged="PtxtPoisk_TextChanged"/>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                        <GroupBox Width="610" Height="215" Header="Добавление специальности">
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="230"/>
+                                    <ColumnDefinition Width="200"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Content="Введите наименование специальности" Grid.Row="0" Grid.Column="0"/>
+                                <TextBox x:Name="StxtsNaimSpec" Grid.Row="1" Grid.Column="0" Margin ="5" PreviewTextInput="StxtsNaimSpec_PreviewTextInput"/>
+
+                                <Label Content="Введите описание специальности" Grid.Row="0" Grid.Column="1"/>
+                                <TextBox x:Name="StxtOpisSpec" Grid.Row="1" Grid.Column="1" Margin ="5" PreviewTextInput="StxtOpisSpec_PreviewTextInput"/>
+
+                                <Button x:Name="SSbtnInsert" Content="Добавить специальность" Margin="5" Grid.Row="2" Grid.Column="0" Click="SSbtnInsert_Click"/>
+                                <Button x:Name="SSbtnUpdate" Content="Изменить специальность" Margin="5" Grid.Row="3" Grid.Column="0" Click="SSbtnUpdate_Click" />
+                                <GroupBox Header="Поиск" Margin="5" HorizontalAlignment="Left" Width="190" Grid.Row="2" Grid.Column="1" Grid.RowSpan="2">
+                                    <TextBox x:Name="SStxtPoisk" Margin="5" Width="165" HorizontalAlignment="Left" PreviewTextInput="SStxtPoisk_PreviewTextInput" TextChanged="SStxtPoisk_TextChanged"/>
+                                </GroupBox>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Отчеты">
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
