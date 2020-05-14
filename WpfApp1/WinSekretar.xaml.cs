@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data.SqlClient;
 using System.Data;
+using Microsoft.Office.Interop.Excel;
+using DataTable = System.Data.DataTable;
 
 
 namespace WpfApp1
@@ -20,7 +22,7 @@ namespace WpfApp1
     /// <summary>
     /// Логика взаимодействия для WinSekretar.xaml
     /// </summary>
-    public partial class WinSekretar : Window
+    public partial class WinSekretar : System.Windows.Window
     {
         int idStudent;
         int idBall;
@@ -220,6 +222,22 @@ namespace WpfApp1
                 }
             }
 
+            using (SqlConnection connect3 = new SqlConnection(Properties.Settings.Default.DBConnect))
+            {
+                connect3.Open();
+                SqlDataAdapter adapter3 = new SqlDataAdapter("Select * from [students]", connect3);
+                var data3 = new DataTable();
+                adapter3.Fill(data3);
+                dgStudents.ItemsSource = data3.DefaultView;
+                SqlCommand command3 = new SqlCommand("Select DISTINCT groupp from [students]", connect3);
+                SqlDataReader reader3 = command3.ExecuteReader();
+                while (reader3.Read())
+                {
+                    if (!OtxtSpeci.Items.Contains(reader3.GetValue(0).ToString()))
+                        OtxtSpeci.Items.Add(reader3.GetValue(0).ToString());
+                }
+            }
+
             using (SqlConnection connect5 = new SqlConnection(Properties.Settings.Default.DBConnect))
             {
                 connect5.Open();
@@ -228,14 +246,14 @@ namespace WpfApp1
                 adapter5.Fill(data5);
                 dgStudents.ItemsSource = data5.DefaultView;
                 //SqlCommand command5 = new SqlCommand("Select DISTINCT CASE WHEN status = 1 THEN 'Да' ELSE 'Нет' END AS status from [students]", connect5);
-                SqlCommand command5 = new SqlCommand("Select DISTINCT status from[students]", connect5);
+                SqlCommand command5 = new SqlCommand("Select DISTINCT status from [students]", connect5);
                 SqlDataReader reader5 = command5.ExecuteReader();
                 while (reader5.Read())
                 {
                     if (!ScmbForm.Items.Contains(reader5.GetValue(0).ToString()))
                         ScmbForm.Items.Add(reader5.GetValue(0).ToString());
                 }
-
+            }
                 using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.DBConnect))
                 {
                     connect.Open();
@@ -253,7 +271,6 @@ namespace WpfApp1
                     adapter.Fill(data);
                     dgSpeci.ItemsSource = data.DefaultView;
                 }
-            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -641,6 +658,141 @@ namespace WpfApp1
                 var data = new DataTable();
                 adapter.Fill(data);
                 dgSpeci.ItemsSource = data.DefaultView;
+            }
+        }
+
+        private void ObtnSearchFour_Click(object sender, RoutedEventArgs e)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.DBConnect))
+            {
+                connect.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("Select fio from [students]", connect);
+                var data = new DataTable();
+                adapter.Fill(data);
+                dgStudentsFour.ItemsSource = data.DefaultView;
+            }
+
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.DBConnect))
+            {
+                connect.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("Select * from [balls], [students] where [balls].[Ocodstudent] = [students].[codstudent] AND [balls].[Osrball] > 4", connect);
+                var data = new DataTable();
+                adapter.Fill(data);
+                dgStudentsFour.ItemsSource = data.DefaultView;
+            }
+        }
+
+        private void ObtnSearchBD_Click(object sender, RoutedEventArgs e)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.DBConnect))
+            {
+                connect.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("Select * from [students] where [students].[bd] Between '" + OdpOne.Text + "' and '" + OdpTwo.Text + "'", connect);
+                var data = new DataTable();
+                adapter.Fill(data);
+                dgStudentsBD.ItemsSource = data.DefaultView;
+            }
+        }
+
+        private void ObtnSearchSpeci_Click(object sender, RoutedEventArgs e)
+        {
+            using (SqlConnection connect = new SqlConnection(Properties.Settings.Default.DBConnect))
+            {
+                connect.Open();
+                SqlDataAdapter adapter = new SqlDataAdapter("Select * from [students] where [students].[groupp] = '" + OtxtSpeci.Text + "'", connect);
+                var data = new DataTable();
+                adapter.Fill(data);
+                dgStudentsSpec.ItemsSource = data.DefaultView;
+            }
+        }
+
+        private void ObtnGenFour_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+            app.Visible = true;
+            app.WindowState = XlWindowState.xlMaximized;
+
+            Workbook wb = app.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+            Worksheet ws = wb.Worksheets[1];
+            DateTime currentDate = DateTime.Now;
+            ws.Columns.AutoFit();
+
+            for (int j = 0; j < dgStudentsFour.Columns.Count; j++)
+            {
+                Range range = (Range)ws.Cells[1, j + 1];
+                ws.Cells[1, j + 1].font.bold = true;
+                ws.Cells[1, j + 1].columnwidth = 15;
+                range.Value2 = dgStudentsFour.Columns[j].Header;
+            }
+
+            for (int i = 0; i < dgStudentsFour.Columns.Count; i++)
+            {
+                for (int j = 0; j < dgStudentsFour.Items.Count; j++)
+                {
+                    TextBlock text = dgStudentsFour.Columns[i].GetCellContent(dgStudentsFour.Items[j]) as TextBlock;
+                    Range range = (Range)ws.Cells[j + 2, i + 1];
+                    range.Value2 = text.Text;
+                }
+            }
+        }
+
+        private void ObtnGenBD_Click (object sender, RoutedEventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+            app.Visible = true;
+            app.WindowState = XlWindowState.xlMaximized;
+
+            Workbook wb = app.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+            Worksheet ws = wb.Worksheets[1];
+            DateTime currentDate = DateTime.Now;
+            ws.Columns.AutoFit();
+
+            for (int j = 0; j < dgStudentsBD.Columns.Count; j++)
+            {
+                Range range = (Range)ws.Cells[1, j + 1];
+                ws.Cells[1, j + 1].font.bold = true;
+                ws.Cells[1, j + 1].columnwidth = 15;
+                range.Value2 = dgStudentsBD.Columns[j].Header;
+            }
+
+            for (int i = 0; i < dgStudentsBD.Columns.Count; i++)
+            {
+                for (int j = 0; j < dgStudentsBD.Items.Count; j++)
+                {
+                    TextBlock text = dgStudentsBD.Columns[i].GetCellContent(dgStudentsBD.Items[j]) as TextBlock;
+                    Range range = (Range)ws.Cells[j + 2, i + 1];
+                    range.Value2 = text.Text;
+                }
+            }
+        }
+
+        private void ObtnGenSpeci_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+            app.Visible = true;
+            app.WindowState = XlWindowState.xlMaximized;
+
+            Workbook wb = app.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+            Worksheet ws = wb.Worksheets[1];
+            DateTime currentDate = DateTime.Now;
+            ws.Columns.AutoFit();
+
+            for (int j = 0; j < dgStudentsSpec.Columns.Count; j++)
+            {
+                Range range = (Range)ws.Cells[1, j + 1];
+                ws.Cells[1, j + 1].font.bold = true;
+                ws.Cells[1, j + 1].columnwidth = 15;
+                range.Value2 = dgStudentsSpec.Columns[j].Header;
+            }
+
+            for (int i = 0; i < dgStudentsSpec.Columns.Count; i++)
+            {
+                for (int j = 0; j < dgStudentsSpec.Items.Count; j++)
+                {
+                    TextBlock text = dgStudentsSpec.Columns[i].GetCellContent(dgStudentsSpec.Items[j]) as TextBlock;
+                    Range range = (Range)ws.Cells[j + 2, i + 1];
+                    range.Value2 = text.Text;
+                }
             }
         }
     }

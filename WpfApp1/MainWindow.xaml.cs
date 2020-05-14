@@ -68,5 +68,29 @@ namespace WpfApp1
                 MessageBox.Show("Нет соединения с БД");
             }
         }
+
+        private void txtLogin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (txtLogin.Text == "" || txtPass.Password == "")
+            {
+                btnEnter.IsEnabled = false;
+            }
+            else
+            {
+                btnEnter.IsEnabled = true;
+            }
+        }
+
+        private void txtPass_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtLogin.Text == "" || txtPass.Password == "")
+            {
+                btnEnter.IsEnabled = false;
+            }
+            else
+            {
+                btnEnter.IsEnabled = true;
+            }
+        }
     }
 }

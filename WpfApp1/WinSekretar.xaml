@@ -15,19 +15,18 @@
                         <RowDefinition Height="300"/>
                         <RowDefinition Height="290"/>
                     </Grid.RowDefinitions>
-
                     <DataGrid x:Name="dgStudents" AutoGenerateColumns="False" SelectionChanged="dgStudents_SelectionChanged" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Код студента" Binding="{Binding codstudent}" Width="80"/>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding fio}" Width="90"/>
                             <DataGridTextColumn Header="Пол" Binding="{Binding gender}" Width="80"/>
-                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding bd, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding bd, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
                             <DataGridTextColumn Header="Родители" Binding="{Binding family}" Width="80"/>
                             <DataGridTextColumn Header="Адрес" Binding="{Binding street}" Width="90"/>
                             <DataGridTextColumn Header="Телефон" Binding="{Binding phone}" Width="100"/>
                             <DataGridTextColumn Header="Паспортные данные" Binding="{Binding passport}" Width="130"/>
                             <DataGridTextColumn Header="Номер зачётки" Binding="{Binding numberz}" Width="95"/>
-                            <DataGridTextColumn Header="Дата поступления" Binding="{Binding datep, StringFormat='{}{0:dd/MM/yyyy}'}"   Width="110"/>
+                            <DataGridTextColumn Header="Дата поступления" Binding="{Binding datep, StringFormat='{}{0:dd.MM.yyyy}'}"   Width="110"/>
                             <DataGridTextColumn Header="Группа" Binding="{Binding groupp}" Width="50"/>
                             <DataGridTextColumn Header="Курс" Binding="{Binding course}" Width="40"/>
                             <DataGridCheckBoxColumn Header="Очная форма обучения" Binding="{Binding status}" Width="150"/>
@@ -104,13 +103,13 @@
                     <DataGrid x:Name="dgBalls" AutoGenerateColumns="False" Grid.ColumnSpan="2" SelectionChanged="dgBalls_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Код студента" Binding="{Binding Ocodstudent}" Width="80"/>
-                            <DataGridTextColumn Header="Дата экзамена 1" Binding="{Binding Odateekz1, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата экзамена 1" Binding="{Binding Odateekz1, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
                             <DataGridTextColumn Header="Предмет 1" Binding="{Binding Ocodpredmeta1}" Width="70"/>
                             <DataGridTextColumn Header="Оценка 1" Binding="{Binding Oball1}" Width="70"/>
-                            <DataGridTextColumn Header="Дата экзамена 2" Binding="{Binding Odateekz2, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата экзамена 2" Binding="{Binding Odateekz2, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
                             <DataGridTextColumn Header="Предмет 2" Binding="{Binding Ocodpredmeta2}" Width="70"/>
                             <DataGridTextColumn Header="Оценка 2" Binding="{Binding Oball2}" Width="70"/>
-                            <DataGridTextColumn Header="Дата экзамена 3" Binding="{Binding Odateekz3, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                            <DataGridTextColumn Header="Дата экзамена 3" Binding="{Binding Odateekz3, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
                             <DataGridTextColumn Header="Предмет 3" Binding="{Binding Ocodpredmeta3}" Width="70"/>
                             <DataGridTextColumn Header="Оценка 3" Binding="{Binding Oball3}" Width="70"/>
                             <DataGridTextColumn Header="Средний балл" Binding="{Binding Osrball}" Width="90"/>
@@ -250,12 +249,113 @@
                             </Grid>
                         </GroupBox>
                     </StackPanel>
-
-
                 </Grid>
             </TabItem>
             <TabItem Header="Отчеты">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280"/>
+                        <ColumnDefinition Width="460"/>
+                        <ColumnDefinition Width="380"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
 
+                    <DataGrid x:Name="dgStudentsFour" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО студента" Binding="{Binding fio}" Width="130"/>
+                            <DataGridTextColumn Header="Средний балл" Binding="{Binding Osrball}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Top">
+                        <GroupBox Width="280" Height="265" Header="">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Label Content="Cписок студентов имеющих средний балл > 4" Grid.Row="0"/>
+                                <Button x:Name="ObtnSearchFour" Content="Найти" Margin="5" Grid.Row="1" Click="ObtnSearchFour_Click"/>
+                                <Button x:Name="ObtnGenFour" Content="Generate Excel File" Margin="5" Grid.Row="2" Click="ObtnGenFour_Click"/>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+
+
+                    <DataGrid x:Name="dgStudentsBD" Grid.Row="0" Grid.Column="1" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО студента" Binding="{Binding fio}" Width="130"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding bd, StringFormat='{}{0:dd.MM.yyyy}'}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <GroupBox Width="460" Height="265" Header="">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="225"/>
+                                    <ColumnDefinition Width="225"/>
+                                </Grid.ColumnDefinitions>
+
+                                <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <Label Content="Cписок студентов, родившихся между " />
+                                    <DatePicker x:Name="OdpOne"/>
+                                    <Label Content=" и " />
+                                    <DatePicker x:Name="OdpTwo"/>
+                                </WrapPanel>
+
+                                <Button x:Name="ObtnSearchBD" Content="Найти" Margin="5" Grid.Row="1" Grid.Column="0" Click="ObtnSearchBD_Click"/>
+                                <Button x:Name="ObtnGenBD" Content="Generate Excel File" Margin="5" Grid.Row="1" Grid.Column="1" Click="ObtnGenBD_Click"/>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                    
+                    <DataGrid x:Name="dgStudentsSpec" Grid.Row="0" Grid.Column="2" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ФИО студента" Binding="{Binding fio}" Width="130"/>
+                            <DataGridTextColumn Header="Группа" Binding="{Binding groupp}" Width="55"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <GroupBox Width="380" Height="265" Header="">
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="180"/>
+                                </Grid.ColumnDefinitions>
+
+                                <WrapPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                                    <Label Content="Список студентов, обучающихся на специальности "/>
+                                    <ComboBox x:Name="OtxtSpeci" Width="60"/>
+                                </WrapPanel>
+
+                                <Button x:Name="ObtnSearchSpeci" Content="Найти" Margin="5" Grid.Row="1" Grid.Column="0" Click="ObtnSearchSpeci_Click"/>
+                                <Button x:Name="ObtnGenSpeci" Content="Generate Excel File" Margin="5" Grid.Row="1" Grid.Column="1" Click="ObtnGenSpeci_Click"/>
+
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                    
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

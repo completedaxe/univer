@@ -22,11 +22,11 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
         
-        <Button x:Name="btnEnter" TabIndex="2" Content="Войти" IsDefault="True" Margin="5" Grid.Row="4" Grid.ColumnSpan="2" Width="130" Height="25" Click="btnEnter_Click"/>
+        <Button x:Name="btnEnter" IsEnabled="False" TabIndex="2" Content="Войти" IsDefault="True" Margin="5" Grid.Row="4" Grid.ColumnSpan="2" Width="130" Height="25" Click="btnEnter_Click"/>
         <Label x:Name="lblLogin" Content="Введите логин" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Label x:Name="lblPass" Content="Введите пароль" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBox x:Name="txtLogin" TabIndex="0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
-        <PasswordBox x:Name="txtPass" TabIndex="1" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"/>
+        <TextBox x:Name="txtLogin" TabIndex="0" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130" TextChanged="txtLogin_TextChanged" />
+        <PasswordBox x:Name="txtPass" TabIndex="1" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130" PasswordChanged="txtPass_PasswordChanged"/>
         <Label x:Name="lblActor" Content="Выполнил студент группы ИСиП-32 Григорьев Андрей" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Foreground="Gray" FontSize="12"/>
 
     </Grid>
